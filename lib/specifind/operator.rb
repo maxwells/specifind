@@ -4,7 +4,7 @@ module Specifind
   #
   # The data are held in the class definition as a list of identifying Strings.
   class Operator
-    @@operators_data = %w(_and_ _or_)
+    @@operators_data = %w(_and_)
     @@operators = []
     attr_accessor :pattern
 

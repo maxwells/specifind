@@ -22,7 +22,12 @@ group :test do
   gem "factory_girl_rails"
   gem "capybara"
   gem "guard-rspec"
+  gem 'guard'
+  gem 'guard-bundler'
   gem "rb-fsevent"
   gem "with_model"
   gem "activerecord"
+  if RUBY_PLATFORM.downcase.include?("darwin")
+    gem 'growl' # also install growlnotify from the Extras/growlnotify/growlnotify.pkg in Growl disk image.
+  end
 end

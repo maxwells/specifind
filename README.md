@@ -1,7 +1,7 @@
 Specifind
 =========
 
-Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators and (slightly) more complex boolean logic. Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods can become much more readable.
+Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators. Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods can become much more readable.
 
 #### Examples
 
@@ -32,3 +32,10 @@ Specifind is automatically included in ActiveRecord once it is added to your Gem
 10. is\_not\_null
 11. is\_null
 12. equals (value) - shorthand is to leave comparator blank (eg. find\_by\_name would mean find\_by\_name\_equals)
+
+#### Notes
+1. Currently, the ilike comparator only works with mysql (to the best of my knowledge)
+
+### Todos
+1. Implement boolean operator logic (eg. find\_by\_age\_greater\_than\_or\_name\_like)
+2. Implement ability to use the same parameter multiple times (currently find_by_age_greater_than_and_age_less_than will choke)
