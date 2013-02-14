@@ -61,7 +61,8 @@ module Specifind
     # Used in a special case by MethodBuilder, which needs to create a block of code (dynamically) to match the method passed. As such,
     # we cannot pass a pointer to the object, so this method dehydrates it with directions for recreating itself.
     def to_where
-      ".where(\"#{@name} #{@comparator.to_where(@name)}\")"
+
+      ".where(\"#{@name} #{@comparator.to_where(@name, @type == :boolean)}\")"
     end
 
     ##
@@ -82,6 +83,10 @@ module Specifind
     # and passes to QueryBuilder
     def to_params
       @comparator ? @comparator.to_params(@name) : nil
+    end
+
+    def to_assertion
+      @comparator.to_type_test @name, @type
     end
 
   end

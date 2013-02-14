@@ -8,27 +8,36 @@ module Specifind
   autoload :Comparator
   autoload :Operator
   autoload :AttributePhrase
+  autoload :Type
 
   included do
     Comparator.generate_comparators
   end
 
   module ClassMethods
+    def acts_as_findable
+      self.send :include, SpecifindWorkings
+    end
+  end
 
-    def method_missing(name, *arguments, &block)
-      match = MethodBuilder.match(self, name)
-      if match && match.valid?
-       # match.merge_attributes_values
-        match.define
-        ##merged_attributes = MethodBuilder.merge_attributes_values attribute_phrases, attribute_values
-        send(name, *arguments, &block)
-      else
-        super
+  module SpecifindWorkings
+    extend ActiveSupport::Concern
+
+    module ClassMethods
+      def method_missing(name, *arguments, &block)
+        match = MethodBuilder.match(self, name)
+        if match && match.valid?
+          types = self.columns.map{|c| {name:c.name, type:c.type}}
+          match.merge_attribute_types types
+          match.define
+          send(name, *arguments, &block)
+        else
+          super
+        end
       end
     end
-
-
-
   end
 
 end
+
+ActiveRecord::Base.send(:include, Specifind)

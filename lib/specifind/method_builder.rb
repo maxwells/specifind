@@ -46,12 +46,14 @@ module Specifind
       @attribute_names = @attributes.map{ |a| a.name }
     end
 
-    def merge_attributes_values(attribute_values)
-      attribute_phrases.each do |a|
-        a.comparator.set_values a.name, attribute_values
-        searchable_attrs.each{ |s| a.type = s[:type] if a.name.to_sym == s[:name] }
+    def merge_attribute_types(columns)
+      @attributes.each do |a|
+        columns.each do |c|
+          if a.name == c[:name]
+            a.type = c[:type]
+          end
+        end
       end
-      attribute_phrases
     end
 
     def valid?
@@ -59,11 +61,17 @@ module Specifind
     end
 
     def define
+      assertions = ""
+      @attributes.each do |a|
+        assertions += a.to_assertion
+      end
       puts "def self.#{name}(#{signature})
+          #{assertions}
           #{body}
         end"
       model.class_eval <<-CODE, __FILE__, __LINE__ + 1
         def self.#{name}(#{signature})
+          #{assertions}
           #{body}
         end
       CODE

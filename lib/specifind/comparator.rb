@@ -6,17 +6,17 @@ module Specifind
   class Comparator
     @@comparators_data = [
         ['_in_list',              1, %w(_list),                     Proc.new{|v| "in (#{v})"}],
-        ['_less_than',            1, %w(_val),                      Proc.new{|v| "< '#{v[0]}'"}],
-        ['_less_than_equals',     1, %w(_val),                      Proc.new{|v| "<= '#{v[0]}'"}],
-        ['_greater_than',         1, %w(_val),                      Proc.new{|v| "> '#{v[0]}'"}],
-        ['_greater_than_equals',  1, %w(_val),                      Proc.new{|v| ">= '#{v[0]}'"}],
-        ['_like',                 1, %w(_val),                      Proc.new{|v| "like '#{v[0]}'"}],
-        ['_ilike',                1, %w(_val),                      Proc.new{|v| "collate UTF8_GENERAL_CI like '#{v[0]}'"}],
-        ['_not_equal',            1, %w(_val),                      Proc.new{|v| "!= '#{v[0]}'"}],
-        ['_between',              2, %w(_bound_one _bound_two),     Proc.new{|v| "between '#{v[0]}' and '#{v[1]}'"}],
+        ['_less_than',            1, %w(_val),                      Proc.new{|v| "< #{v[0]}"}],
+        ['_less_than_equals',     1, %w(_val),                      Proc.new{|v| "<= #{v[0]}"}],
+        ['_greater_than',         1, %w(_val),                      Proc.new{|v| "> #{v[0]}"}],
+        ['_greater_than_equals',  1, %w(_val),                      Proc.new{|v| ">= #{v[0]}"}],
+        ['_like',                 1, %w(_val),                      Proc.new{|v| "like #{v[0]}"}],
+        ['_ilike',                1, %w(_val),                      Proc.new{|v| "collate UTF8_GENERAL_CI like #{v[0]}"}],
+        ['_not_equal',            1, %w(_val),                      Proc.new{|v| "!= #{v[0]}"}],
+        ['_between',              2, %w(_bound_one _bound_two),     Proc.new{|v| "between #{v[0]} and #{v[1]}"}],
         ['_is_not_null',          0, [],                            Proc.new{|v| "is not null"}],
         ['_is_null',              0, [],                            Proc.new{|v| "is null"}],
-        ['_equals',               1, %w(_val),                      Proc.new{|v| "= '#{v[0]}'"}]
+        ['_equals',               1, %w(_val),                      Proc.new{|v| "= #{v[0]}"}]
     ]
     @@comparators = []
     attr_accessor :pattern, :num_params, :param_suffixes, :values, :sql_proc
@@ -66,9 +66,11 @@ module Specifind
     end
 
     # builds sql (through @sql_proc) for values that corresponds with this type of comparator
-    def to_where(name)
+    def to_where(name, remove_quotes = false)
       #raise 'values for comparator are not defined' if !values
-      @sql_proc.call param_suffixes.map{|p|"\#{#{name}#{p}}"}
+      response = @sql_proc.call param_suffixes.map{|p|"\#{#{name}#{p}}"}
+      response.delete! "'" if remove_quotes
+      response
     end
 
     # builds signature (the parameter definitions for a method) based on the type of suffixes
@@ -83,6 +85,15 @@ module Specifind
     def to_params(name)
       return '' if num_params == 0
       param_suffixes.map { |p| ":#{name}#{p} => #{name}#{p}" }.join(',')
+    end
+
+    def to_type_test(name, type)
+      out = ""
+      # assert that each variable associated with this comparator is of type passed.
+      param_suffixes.each do |p|
+        out += "#{name}#{p} = Type.assert_#{type}(#{name}#{p})\n"
+      end
+      out
     end
 
   end
