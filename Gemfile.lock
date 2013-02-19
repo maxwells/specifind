@@ -139,6 +139,7 @@ GEM
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
+    ruby_gntp (0.3.4)
     rubyzip (0.9.9)
     selenium-webdriver (2.29.0)
       childprocess (>= 0.2.5)
@@ -182,6 +183,7 @@ DEPENDENCIES
   mysql2
   rb-fsevent
   rspec-rails
+  ruby_gntp
   specifind!
   sqlite3
   with_model

@@ -28,6 +28,7 @@ group :test do
   gem "with_model"
   gem "activerecord"
   if RUBY_PLATFORM.downcase.include?("darwin")
+    gem 'ruby_gntp'
     gem 'growl' # also install growlnotify from the Extras/growlnotify/growlnotify.pkg in Growl disk image.
   end
 end

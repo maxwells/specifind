@@ -12,7 +12,7 @@ describe Person do
 
     ActiveRecord::Base.establish_connection(
        :adapter   => 'sqlite3',
-       :database  => 'test/dummy/db/test.sqlite3'
+       :database  => 'spec/spec.sqlite3'
     )
 
     ActiveRecord::Migration.class_eval do
