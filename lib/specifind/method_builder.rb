@@ -42,7 +42,6 @@ module Specifind
       @name            = name.to_s
       match = @name.match(self.class.pattern)
       @attributes      = MethodBuilder.parse_to_attributes match[1]
-      puts @attributes.to_json
       @attribute_names = @attributes.map{ |a| a.name }
     end
 
@@ -65,10 +64,6 @@ module Specifind
       @attributes.each do |a|
         assertions += a.to_assertion
       end
-      puts "def self.#{name}(#{signature})
-          #{assertions}
-          #{body}
-        end"
       model.class_eval <<-CODE, __FILE__, __LINE__ + 1
         def self.#{name}(#{signature})
           #{assertions}

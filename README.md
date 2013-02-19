@@ -1,7 +1,7 @@
 Specifind
 =========
 
-Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators. Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods can become much more readable.
+Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators. Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods can become much more readable. If an object of the wrong type (based on the type of the corresponding column of the db) is passed into a finder, it will raise an exception
 
 #### Examples
 
@@ -13,6 +13,7 @@ Here is the person class that is used in the test/dummy app:
     end
 
 Specifind is automatically included in ActiveRecord once it is added to your Gemfile. `acts_as_findable` will enable a model to employ specifind's find\_by_* methods. Given the three attributes above, here are some examples of methods you could use to slice your data:
+
 `Person.find_by_age_greater_than_or_birthday_between 15, DateTime.new(1985, 1, 1),DateTime.new(1987,3,6)`
 
 `Person.find_by_name_like '%a%'`
