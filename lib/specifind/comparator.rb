@@ -4,20 +4,6 @@ module Specifind
   #
   # The data are held in the class definition as [identifier (String), number of parameters (int), parameter suffixes (list of String), and sql creators (Procs)].
   class Comparator
-    @@comparators_data = [
-        ['_in_list',              1, %w(_list),                     Proc.new{|v| "in (#{v})"}],
-        ['_less_than',            1, %w(_val),                      Proc.new{|v| "< #{v[0]}"}],
-        ['_less_than_equals',     1, %w(_val),                      Proc.new{|v| "<= #{v[0]}"}],
-        ['_greater_than',         1, %w(_val),                      Proc.new{|v| "> #{v[0]}"}],
-        ['_greater_than_equals',  1, %w(_val),                      Proc.new{|v| ">= #{v[0]}"}],
-        ['_like',                 1, %w(_val),                      Proc.new{|v| "like #{v[0]}"}],
-        ['_ilike',                1, %w(_val),                      Proc.new{|v| "collate UTF8_GENERAL_CI like #{v[0]}"}],
-        ['_not_equal',            1, %w(_val),                      Proc.new{|v| "!= #{v[0]}"}],
-        ['_between',              2, %w(_bound_one _bound_two),     Proc.new{|v| "between #{v[0]} and #{v[1]}"}],
-        ['_is_not_null',          0, [],                            Proc.new{|v| "is not null"}],
-        ['_is_null',              0, [],                            Proc.new{|v| "is null"}],
-        ['_equals',               1, %w(_val),                      Proc.new{|v| "= #{v[0]}"}]
-    ]
     @@comparators = []
     attr_accessor :pattern, :num_params, :param_suffixes, :values, :sql_proc
 
@@ -47,7 +33,24 @@ module Specifind
     # From the data listed in the Comparator class definition, Comparator.generate_comparators constructs each type of Comparators
     # and adds it to Comparator.comparators
     def self.generate_comparators
-      @@comparators_data.each{|c| c = Comparator.new pattern: c[0], num_params: c[1], param_suffixes: c[2], sql_proc: c[3] }
+      self.comparators_data.each{|c| c = Comparator.new pattern: c[0], num_params: c[1], param_suffixes: c[2], sql_proc: c[3] }
+    end
+
+    def self.comparators_data
+      [
+        ['_in_list',              1, %w(_list),                     Proc.new{|v| "in (#{v})"}],
+        ['_less_than',            1, %w(_val),                      Proc.new{|v| "< #{v[0]}"}],
+        ['_less_than_equals',     1, %w(_val),                      Proc.new{|v| "<= #{v[0]}"}],
+        ['_greater_than',         1, %w(_val),                      Proc.new{|v| "> #{v[0]}"}],
+        ['_greater_than_equals',  1, %w(_val),                      Proc.new{|v| ">= #{v[0]}"}],
+        ['_like',                 1, %w(_val),                      Proc.new{|v| "like #{v[0]}"}],
+        ['_ilike',                1, %w(_val),                      Proc.new{|v| "collate UTF8_GENERAL_CI like #{v[0]}"}],
+        ['_not_equal',            1, %w(_val),                      Proc.new{|v| "!= #{v[0]}"}],
+        ['_between',              2, %w(_bound_one _bound_two),     Proc.new{|v| "between #{v[0]} and #{v[1]}"}],
+        ['_is_not_null',          0, [],                            Proc.new{|v| "is not null"}],
+        ['_is_null',              0, [],                            Proc.new{|v| "is null"}],
+        ['_equals',               1, %w(_val),                      Proc.new{|v| "= #{v[0]}"}]
+      ]
     end
 
     def initialize(args)
