@@ -1,3 +1,6 @@
+[![Code Climate](https://codeclimate.com/github/maxwells/specifind.png)](https://codeclimate.com/github/maxwells/specifind)
+[![travis-ci](https://travis-ci.org/maxwells/specifind.png?branch=master)](https://travis-ci.org/maxwells/specifind)
+
 Specifind
 =========
 
