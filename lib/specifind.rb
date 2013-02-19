@@ -12,6 +12,7 @@ module Specifind
 
   included do
     Comparator.generate_comparators
+    Type.generate_methods
   end
 
   module ClassMethods
