@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    specifind (0.0.1)
+    specifind (0.1.0)
       rails (~> 3.2.9)
 
 GEM

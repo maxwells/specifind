@@ -4,7 +4,7 @@ Specifind
 [![Code Climate](https://codeclimate.com/github/maxwells/specifind.png)](https://codeclimate.com/github/maxwells/specifind)
 [![Build Status](https://travis-ci.org/maxwells/specifind.png?branch=master)](https://travis-ci.org/maxwells/specifind)
 
-Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators (like the grails ORM). Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods will be much more readable. If an object of the wrong type (based on the type of the corresponding column of the db) is passed into a finder, it will raise an exception
+Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators (like the grails ORM). Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods will be much more readable. If an object of the wrong type (based on the type of the corresponding column of the db) is passed into a finder, it will raise an exception. Ruby 1.9.2 and above are supported
 
 #### Installation
 
