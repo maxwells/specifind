@@ -6,6 +6,7 @@ module Specifind
   module Comparators
     extend ActiveSupport::Autoload
 
+    autoload :Base
     autoload :SQLite3
     autoload :Mysql2
     autoload :PostgreSQL

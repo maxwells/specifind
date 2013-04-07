@@ -7,14 +7,14 @@ require "specifind/version"
 Gem::Specification.new do |s|
   s.name        = "specifind"
   s.version     = Specifind::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Specifind."
-  s.description = "TODO: Description of Specifind."
+  s.authors     = ["Max Lahey"]
+  s.email       = ["maxwellslahey@gmail.com"]
+  s.homepage    = "http://maxwells.github.io"
+  s.summary     = "Readble & Advanced ActiveRecord dynamic methods"
+  s.description = "Specifind offers advanced ActiveRecord dynamic find\_by_* methods that include comparators (like the grails ORM). Coupled with some solid SQL injection mitigation through strict verification of type and string escaping, your find methods will be much more readable. If an object of the wrong type (based on the type of the corresponding column of the db) is passed into a finder, it will raise an exception. Ruby 1.9.2 and above are supported"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
+  s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
 

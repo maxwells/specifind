@@ -85,6 +85,8 @@ module Specifind
       @comparator ? @comparator.to_params(@name) : nil
     end
 
+    ##
+    # Converts this attribute to a dynamic assertion of type of whatever value is passed to the find_by_* method
     def to_assertion
       @comparator.to_type_test @name, @type
     end
