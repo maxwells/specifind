@@ -24,13 +24,13 @@ describe Person do
        end
     end
 
-    Person.create name: 'Erin', birthday: Date.new(1981, 5, 16), male: false
-    Person.create name: 'Aaron', birthday: Date.new(1956, 8, 6), male: true
-    Person.create name: 'Niki', birthday: Date.new(1992, 3, 29), male: false
-    Person.create name: 'Nick', birthday: Date.new(1974, 11, 1), male: true
-    Person.create name: 'Dani', birthday: Date.new(1987, 4, 9), male: false
-    Person.create name: 'Dan', birthday: Date.new(2001, 1, 17), male: true
-    Person.create name: 'xxyxx', birthday: nil, male: false
+    Person.create :name => 'Erin', :birthday => Date.new(1981, 5, 16), :male => false
+    Person.create :name => 'Aaron', :birthday => Date.new(1956, 8, 6), :male => true
+    Person.create :name => 'Niki', :birthday => Date.new(1992, 3, 29), :male => false
+    Person.create :name => 'Nick', :birthday => Date.new(1974, 11, 1), :male => true
+    Person.create :name => 'Dani', :birthday => Date.new(1987, 4, 9), :male => false
+    Person.create :name => 'Dan', :birthday => Date.new(2001, 1, 17), :male => true
+    Person.create :name => 'xxyxx', :birthday => nil, :male => false
 
   end
 
