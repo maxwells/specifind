@@ -64,9 +64,14 @@ module Specifind
       @attributes.each do |a|
         assertions += a.to_assertion
       end
+      rearrangements = ""
+      @attributes.each do |a|
+        rearrangements += a.to_rearrangement
+      end
       model.class_eval <<-CODE, __FILE__, __LINE__ + 1
         def self.#{name}(#{signature})
           #{assertions}
+          #{rearrangements}
           #{body}
         end
       CODE

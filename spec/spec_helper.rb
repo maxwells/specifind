@@ -1,7 +1,10 @@
-#require 'rspec/rails'
-#require 'rspec/autorun'
+require 'active_record'
 
-#Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+cnf = YAML::load_file(File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml'))
+config_block = ENV['TEST_CONFIG'] || 'test'
+cnf = cnf[config_block]
+
+ActiveRecord::Base.establish_connection(cnf)
 
 RSpec.configure do |config|
   config.order = "random"

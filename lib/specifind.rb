@@ -5,38 +5,43 @@ module Specifind
   extend ActiveSupport::Autoload
 
   autoload :MethodBuilder
-  autoload :Comparator
+  autoload :Comparators
   autoload :Operator
   autoload :AttributePhrase
   autoload :Type
 
   included do
-    Comparator.generate_comparators
+    Specifind::Comparators.generate_comparators
     Type.generate_methods
   end
 
   module ClassMethods
-    def acts_as_findable
-      self.send :include, SpecifindWorkings
+
+    def method_missing(name, *arguments, &block)
+      unless Specifind.comparator
+        active_record_adapter = ActiveRecord::Base.connection.class.name.split(':').last.gsub /Adapter/, ''
+        comparator = "Specifind::Comparators::#{active_record_adapter}".constantize
+        Specifind.comparator = "Specifind::Comparators::#{active_record_adapter}".constantize
+      end
+      
+      match = MethodBuilder.match(self, name)
+      if match && match.valid?
+        types = self.columns.map{|c| {name:c.name, type:c.type}}
+        match.merge_attribute_types types
+        match.define
+        send(name, *arguments, &block)
+      else
+        super
+      end
     end
   end
 
-  module SpecifindWorkings
-    extend ActiveSupport::Concern
+  def self.comparator=(val)
+    @comparator = val
+  end
 
-    module ClassMethods
-      def method_missing(name, *arguments, &block)
-        match = MethodBuilder.match(self, name)
-        if match && match.valid?
-          types = self.columns.map{|c| {name:c.name, type:c.type}}
-          match.merge_attribute_types types
-          match.define
-          send(name, *arguments, &block)
-        else
-          super
-        end
-      end
-    end
+  def self.comparator
+    @comparator
   end
 
 end

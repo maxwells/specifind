@@ -28,8 +28,8 @@ module Specifind
     #
     # @param [Hash] args requires [:string] and [:operator]. String is of form 'attribute(_comparator)' and operator is of type Operator or nil
     def self.from_string_and_operator(args)
-      raise 'AttributePhrase.from_string_and_operator requires a hash with [:string]' if !(args[:string])
-      comparator_patterns = Regexp.new Comparator.patterns.map{|c| c = "(#{c})"}.join '|'
+      raise 'AttributePhrase.from_string_and_operator requires a hash with [:string]' unless args[:string]
+      comparator_patterns = Regexp.new Specifind.comparator.patterns.map{|c| c = "(#{c})"}.join '|'
       attribute_with_comparator = args[:string].split comparator_patterns
       name = attribute_with_comparator[0]
       comparator = attribute_with_comparator[1] || '_equals'
@@ -47,7 +47,7 @@ module Specifind
       @name = args[:name]
       @type = args[:type] || nil
       @value = args[:value] || nil
-      @comparator = Comparator.find(args[:comparator]) || nil
+      @comparator = Specifind.comparator.find(args[:comparator]) || nil
       @operator = Operator.find(args[:operator]) || nil
     end
 
@@ -87,6 +87,14 @@ module Specifind
 
     def to_assertion
       @comparator.to_type_test @name, @type
+    end
+
+    ##
+    # rearrange any parameter thats passed to necessary values
+    #
+    # example: sql lists are formatted as (val1, val2, val3), while ruby will export (strings) as ['val1', 'val2', 'val3']
+    def to_rearrangement
+      @comparator.to_rearrangement @name, @type
     end
 
   end
