@@ -4,6 +4,7 @@ gemspec
 
 gem "rspec-rails", :group => [:test, :development]
 group :test do
+  gem 'metric_fu'
   gem "capybara"
   gem "guard-rspec"
   gem 'guard'

@@ -21,6 +21,11 @@ RDoc::Task.new(:rdoc) do |rdoc|
 end
 
 
+desc "Run all metrics"
+task :metrics do
+  puts "Generating Metrics with metric_fu.\nCheck your browser for output."
+  `metric_fu -r`
+end
 
 
 Bundler::GemHelper.install_tasks
