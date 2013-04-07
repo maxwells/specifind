@@ -3,16 +3,16 @@ module Specifind
 
     def self.data
       [
-        { type: 'binary', allowed_classes: [String] },
-        { type: 'boolean', allowed_classes: [TrueClass, FalseClass] },
-        { type: 'date', allowed_classes: [Date, DateTime] },
-        { type: 'decimal', allowed_classes: [Float, Fixnum] },
-        { type: 'float', allowed_classes: [Float] },
-        { type: 'integer', allowed_classes: [Fixnum] },
-        { type: 'string', allowed_classes: [String] },
-        { type: 'text', allowed_classes: [String] },
-        { type: 'time', allowed_classes: [Time] },
-        { type: 'timestamp', allowed_classes: [Date, DateTime] }
+        { :type => 'binary', :allowed_classes => [String] },
+        { :type => 'boolean', :allowed_classes => [TrueClass, FalseClass] },
+        { :type => 'date', :allowed_classes => [Date, DateTime] },
+        { :type => 'decimal', :allowed_classes => [Float, Fixnum] },
+        { :type => 'float', :allowed_classes => [Float] },
+        { :type => 'integer', :allowed_classes => [Fixnum] },
+        { :type => 'string', :allowed_classes => [String] },
+        { :type => 'text', :allowed_classes => [String] },
+        { :type => 'time', :allowed_classes => [Time] },
+        { :type => 'timestamp', :allowed_classes => [Date, DateTime] }
       ]
     end
 

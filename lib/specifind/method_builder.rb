@@ -18,7 +18,7 @@ module Specifind
         attribute_list = []
         # it is now split into [field_name (+comparator)] + operator + [field_name (+comparator)] ...
 
-        attribute_list << AttributePhrase.from_string_and_operator(string: hybrid_list.shift, operator: hybrid_list.shift) while hybrid_list.length > 0
+        attribute_list << AttributePhrase.from_string_and_operator(:string => hybrid_list.shift, :operator => hybrid_list.shift) while hybrid_list.length > 0
         attribute_list
       end
 

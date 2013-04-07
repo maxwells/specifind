@@ -34,7 +34,7 @@ module Specifind
       # From the data listed in the Comparator class definition, Comparator.generate_comparators constructs each type of Comparators
       # and adds it to Comparator.comparators
       def self.generate_comparators
-        self.comparators_data.each{|c| c = PostgreSQL.new pattern: c[0], num_params: c[1], param_suffixes: c[2], sql_proc: c[3] }
+        self.comparators_data.each{|c| c = PostgreSQL.new :pattern => c[0], :num_params => c[1], :param_suffixes => c[2], :sql_proc => c[3] }
       end
 
       def self.comparators_data

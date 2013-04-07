@@ -33,7 +33,7 @@ module Specifind
       attribute_with_comparator = args[:string].split comparator_patterns
       name = attribute_with_comparator[0]
       comparator = attribute_with_comparator[1] || '_equals'
-      AttributePhrase.new name: name, comparator: comparator, operator: args[:operator]
+      AttributePhrase.new :name => name, :comparator => comparator, :operator => args[:operator]
     end
 
     ##

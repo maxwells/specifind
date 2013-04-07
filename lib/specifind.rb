@@ -26,7 +26,7 @@ module Specifind
       
       match = MethodBuilder.match(self, name)
       if match && match.valid?
-        types = self.columns.map{|c| {name:c.name, type:c.type}}
+        types = self.columns.map{|c| {:name => c.name, :type => c.type}}
         match.merge_attribute_types types
         match.define
         send(name, *arguments, &block)
