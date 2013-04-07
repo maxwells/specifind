@@ -5,3 +5,9 @@ rvm:
   - 1.8.7
 env:
   - rails=3.2.9
+  - DB=sqlite
+  - DB=mysql
+  - DB=postgresql
+before_script:
+  - mysql -e 'create database specifind_test'
+  - psql -c 'create database specifind_test' -U postgres
