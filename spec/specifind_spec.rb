@@ -15,7 +15,6 @@ end
 describe Person do
   before(:all) do
 
-
     ActiveRecord::Migration.class_eval do
       create_table :people do |t|
           t.integer  :age
@@ -68,7 +67,7 @@ describe Person do
 
     it "finds instances with like comparator" do
       list = Person.find_by_name_like '%n%'
-      if ActiveRecord::Base.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
+      if ActiveRecord::Base.connection.class.name == "ActiveRecord::ConnectionAdapters::SQLite3Adapter"
         list.length.should == 6 # sqlite3 uses case insensitive for like. no magic way to make case sensitive
       else
         list.length.should == 4 # Erin, Aaron, Dani, Dan

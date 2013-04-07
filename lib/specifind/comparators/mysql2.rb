@@ -44,7 +44,7 @@ module Specifind
           ['_less_than',            1, %w(_val),                      Proc.new{|v| "< #{v[0]}"}],
           ['_greater_than_equals',  1, %w(_val),                      Proc.new{|v| ">= #{v[0]}"}],
           ['_greater_than',         1, %w(_val),                      Proc.new{|v| "> #{v[0]}"}],
-          ['_like',                 1, %w(_val),                      Proc.new{|v| "like #{v[0]} collate utf8_bin"}],
+          ['_like',                 1, %w(_val),                      Proc.new{|v| "like #{v[0]} collate #{@@encoding}_bin"}],
           ['_ilike',                1, %w(_val),                      Proc.new{|v| "like #{v[0]}"}],
           ['_not_equal',            1, %w(_val),                      Proc.new{|v| "!= #{v[0]}"}],
           ['_between',              2, %w(_bound_one _bound_two),     Proc.new{|v| "between #{v[0]} and #{v[1]}"}],
@@ -59,6 +59,7 @@ module Specifind
         @num_params = args[:num_params]
         @param_suffixes = @num_params > 0 ? args[:param_suffixes] : []
         @sql_proc = args[:sql_proc]
+        @@encoding = ActiveRecord::Base.connection.instance_variable_get('@config')[:encoding]
         Mysql2.comparators << self
       end
 
