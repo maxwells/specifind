@@ -4,10 +4,9 @@ rvm:
   - 1.9.2
   - 1.8.7
 env:
-  - rails=3.2.9
-  - DB=sqlite
-  - DB=mysql
-  - DB=postgresql
+  - TEST_CONFIG=test_mysql
+  - TEST_CONFIG=test_sqlite
+  - TEST_CONFIG=test_postgres
 before_script:
-  - mysql -e 'create database specifind_test'
-  - psql -c 'create database specifind_test' -U postgres
+  - sh -c "if [ '$TEST_CONFIG' = 'test_mysql' ]; then mysql -e 'create database specifind_test;' --user=root;  fi"
+  - sh -c "if [ '$TEST_CONFIG' = 'test_postgres' ]; then psql -c 'create database specifind_test;' -U postgres; fi"
