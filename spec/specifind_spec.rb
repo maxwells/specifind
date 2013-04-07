@@ -68,7 +68,11 @@ describe Person do
 
     it "finds instances with like comparator" do
       list = Person.find_by_name_like '%n%'
-      list.length.should == 4 # Erin, Aaron, Dani, Dan
+      if ActiveRecord::Base.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
+        list.length.should == 6 # sqlite3 uses case insensitive for like. no magic way to make case sensitive
+      else
+        list.length.should == 4 # Erin, Aaron, Dani, Dan
+      end
     end
 
     it "finds instances with ilike comparator" do

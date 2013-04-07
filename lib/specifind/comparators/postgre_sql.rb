@@ -4,7 +4,7 @@ module Specifind
     # Comparator holds the logic for each type of comparator that is use in {MethodBuilder} definition.
     #
     # The data are held in the class definition as [identifier (String), number of parameters (int), parameter suffixes (list of String), and sql creators (Procs)].
-    class SQLite3
+    class PostgreSQL
       @@comparators = []
       attr_accessor :pattern, :num_params, :param_suffixes, :values, :sql_proc
 
@@ -34,7 +34,7 @@ module Specifind
       # From the data listed in the Comparator class definition, Comparator.generate_comparators constructs each type of Comparators
       # and adds it to Comparator.comparators
       def self.generate_comparators
-        self.comparators_data.each{|c| c = SQLite3.new pattern: c[0], num_params: c[1], param_suffixes: c[2], sql_proc: c[3] }
+        self.comparators_data.each{|c| c = PostgreSQL.new pattern: c[0], num_params: c[1], param_suffixes: c[2], sql_proc: c[3] }
       end
 
       def self.comparators_data
@@ -45,7 +45,7 @@ module Specifind
           ['_greater_than_equals',  1, %w(_val),                      Proc.new{|v| ">= #{v[0]}"}],
           ['_greater_than',         1, %w(_val),                      Proc.new{|v| "> #{v[0]}"}],
           ['_like',                 1, %w(_val),                      Proc.new{|v| "like #{v[0]}"}],
-          ['_ilike',                1, %w(_val),                      Proc.new{|v| "like #{v[0]}"}],
+          ['_ilike',                1, %w(_val),                      Proc.new{|v| "ilike #{v[0]}"}],
           ['_not_equal',            1, %w(_val),                      Proc.new{|v| "!= #{v[0]}"}],
           ['_between',              2, %w(_bound_one _bound_two),     Proc.new{|v| "between #{v[0]} and #{v[1]}"}],
           ['_is_not_null',          0, [],                            Proc.new{|v| "is not null"}],
@@ -59,7 +59,7 @@ module Specifind
         @num_params = args[:num_params]
         @param_suffixes = @num_params > 0 ? args[:param_suffixes] : []
         @sql_proc = args[:sql_proc]
-        SQLite3.comparators << self
+        PostgreSQL.comparators << self
       end
 
       # Creates the values list for this comparator so that when it's build_sql method is called,
@@ -80,12 +80,14 @@ module Specifind
       # builds signature (the parameter definitions for a method) based on the type of suffixes
       # that are required for this type of Comparator. See {AttributePhrase#to_signature} for further detail
       def to_signature(name)
+        return '' if num_params == 0
         param_suffixes.map{|p| "#{name}#{p}" }.join(',')
       end
 
       # builds hash component (the parameters for the search_by method) based on the type of suffixes
       # that are required for this type of Comparator. See {AttributePhrase#to_params} for further detail
       def to_params(name)
+        return '' if num_params == 0
         param_suffixes.map { |p| ":#{name}#{p} => #{name}#{p}" }.join(',')
       end
 
@@ -108,7 +110,7 @@ module Specifind
       def to_rearrangement(name, type)
         out = ''
         if @pattern == '_in_list'
-          out += "#{name}#{param_suffixes[0]} = #{name}#{param_suffixes[0]}.map{|el| '\"'+el+'\"'}.join ','"
+          out += "#{name}#{param_suffixes[0]} = #{name}#{param_suffixes[0]}.map{|el| \"'\"+el+\"'\"}.join ','"
         end
         out
       end

@@ -16,5 +16,5 @@ test_mysql:
   
 test_postgres:
   adapter: postgresql
-  database: myapp_test
+  database: specifind_test
   username: postgres
