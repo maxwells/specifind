@@ -95,6 +95,14 @@ module Specifind
         out
       end
 
+      def to_rearrangement(name, type)
+        out = ''
+        if @pattern == '_in_list'
+          out += "#{name}#{param_suffixes[0]} = #{name}#{param_suffixes[0]}.map{|el| \"'\"+el+\"'\"}.join ','"
+        end
+        out
+      end
+
     end
   end
 end
